@@ -2,6 +2,7 @@ import 'package:app/Signup.dart';
 import 'package:app/loader2.dart';
 import 'package:app/loader3.dart';
 import 'package:app/loader4.dart';
+import 'package:app/signup2.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -32,13 +33,14 @@ class _loader1State extends State<loader1> {
                 loader2(),
                 loader3(),
                 loader4(),
-                signup()
+                signup(),
+                signup2()
               ],
             ),
           ),
           SmoothPageIndicator(
               controller: _controller,
-              count: 4,
+              count: 5,
             effect: SwapEffect(
               activeDotColor: Colors.pink,
               dotColor: Colors.pink.withOpacity(0.5)

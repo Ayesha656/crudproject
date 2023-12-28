@@ -1,4 +1,5 @@
 import 'package:achievement_view/achievement_widget.dart';
+import 'package:app/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +47,7 @@ class _signupState extends State<signup> {
                 SizedBox(
                   height: 100,
                   width: 200,
-                  child:  Text("Welcome!", style: GoogleFonts.montserrat(fontSize: 28, fontWeight: FontWeight.w900), textAlign: TextAlign.left,),
+                  child:  Text("Welcome Back!", style: GoogleFonts.montserrat(fontSize: 28, fontWeight: FontWeight.w900), textAlign: TextAlign.left,),
 
                 ),
                 SizedBox(
@@ -148,6 +149,7 @@ class _signupState extends State<signup> {
                             showAchievementView();
                             uname.clear();
                             password.clear();
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> login()));
                           },
                           child: Text("Sign Up", style: GoogleFonts.montserrat(fontSize: 18,fontWeight: FontWeight.normal, color: Colors.white),textAlign: TextAlign.center,),
                         ),
