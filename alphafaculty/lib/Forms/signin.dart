@@ -52,13 +52,20 @@ class _SigInScreenState extends State<SigInScreen> {
       debugPrint(res);
       Map map = jsonDecode(res);
      String status = map["status"];
+
+    String facultyname= map["obj"]["name"];
+    String facultyemail = map["obj"]["email"];
+    String facultypassword = map["obj"]["password"];
+
+      debugPrint("status from api:$status");
+    debugPrint(facultyname);
      debugPrint("Your Status is: $status");
       if(status == "success"){
         debugPrint(res);
-        loginStudent();
+
         if(context.mounted){
           // Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(studentID: studentId.text.toString(),),));
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_Screen()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_Screen(facultyname: facultyname,facultypass: facultypassword,)));
         }
         setState(() {
           userLoader = !userLoader;
@@ -83,15 +90,15 @@ class _SigInScreenState extends State<SigInScreen> {
     }
   }
 
-  void loginStudent()async{
-    SharedPreferences usernamelog = await SharedPreferences.getInstance();
-    //studentLog.setString(username);
-    usernamelog.setString("email", username.text);
-    if(context.mounted){
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(studentID: studentId.text.toString(),),));
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_Screen()));
-    }
-  }
+   void loginStudent()async{
+     SharedPreferences usernamelog = await SharedPreferences.getInstance();
+     //studentLog.setString(username);
+     usernamelog.setString("email", username.text);
+     if(context.mounted){
+       //Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(studentID: studentId.text.toString(),),));
+       Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_Screen(facultyname: username.text, facultypass: password.text)));
+     }
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +197,7 @@ class _SigInScreenState extends State<SigInScreen> {
                           onPressed: () {
                             if(formKey.currentState!.validate()){
                               userGet();
-                              //loginStudent();
+                              loginStudent();
                               debugPrint(username.text);
                               debugPrint(password.text);
                             }
