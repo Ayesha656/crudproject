@@ -1,3 +1,6 @@
+import "package:alphafaculty/dashboard_screens/current_batches.dart";
+import "package:alphafaculty/dashboard_screens/fetch_checkin.dart";
+import "package:alphafaculty/dashboard_screens/request_session.dart";
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:flutter/services.dart";
@@ -7,10 +10,11 @@ import "dart:convert";
 import "package:achievement_view/achievement_view.dart";
 
 class Home_Screen extends StatefulWidget {
-  const Home_Screen({super.key, required this.facultyname, required this.facultypass});
+  const Home_Screen({super.key, required this.facultyname, required this.facultypass, required this.fa_id});
 final String facultyname ;
 
   final String facultypass;
+  final String fa_id;
 
   @override
   State<Home_Screen> createState() => _Home_ScreenState();
@@ -29,13 +33,17 @@ class _Home_ScreenState extends State<Home_Screen> {
 
     http.StreamedResponse response = await request.send();
 
+
     if (response.statusCode == 200) {
       var res = await response.stream.bytesToString();
       debugPrint(res);
       Map map = jsonDecode(res);
       String apiRes = map['status'];
+      print(apiRes);
+
+
       if(context.mounted){
-        if(apiRes=="Marked"){
+        if(apiRes=="Check In"){
           AchievementView(
               elevation: 0,
               color: Colors.green,
@@ -47,7 +55,7 @@ class _Home_ScreenState extends State<Home_Screen> {
               ),
               icon: const Icon(Icons.check_circle, color: Colors.white,),
               title: "Check In",
-              subTitle: "You have successfully checkin!"
+              subTitle: "You have successfully checked-In!"
           ).show(context);
         }
         if(apiRes=="Invalid Slot"){
@@ -237,6 +245,10 @@ class _Home_ScreenState extends State<Home_Screen> {
                 leading: Icon(Icons.qr_code),
                 title: Text("Fetch Check-Ins", style: GoogleFonts.roboto(color: Colors.black, fontWeight: FontWeight.w700),),
                 subtitle: Text("Fetch All Your Check-Ins", style: GoogleFonts.roboto(color: Colors.black),),
+                onTap: (){
+             Navigator.push(context, MaterialPageRoute(builder: (context)=> Checkin()));
+                },
+
 
               ),
             ),
@@ -250,6 +262,9 @@ class _Home_ScreenState extends State<Home_Screen> {
                 leading: Icon(Icons.book),
                 title: Text("Current Batches", style: GoogleFonts.roboto(color: Colors.black, fontWeight: FontWeight.w700),),
                 subtitle: Text("Your Current Batches", style: GoogleFonts.roboto(color: Colors.black),),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> current_batches(facultyid: fa_id,)));
+                },
               ),
             ),
             Card(
@@ -263,6 +278,10 @@ class _Home_ScreenState extends State<Home_Screen> {
                 leading: Icon(Icons.ac_unit),
                 title: Text("Request Session", style: GoogleFonts.roboto(color: Colors.black, fontWeight: FontWeight.w700),),
                 subtitle: Text("Enter Total Sessions Required!", style: GoogleFonts.roboto(color: Colors.black),),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> RequestSession()));
+                },
+
               ),
             ),
             Card(
@@ -275,6 +294,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                 leading: Icon(Icons.person),
                 title: Text("Alternates", style: GoogleFonts.roboto(color: Colors.black, fontWeight: FontWeight.w700),),
                 subtitle: Text("Fetch All Your Alternates", style: GoogleFonts.roboto(color: Colors.black),),
+
               ),
             ),
             Card(

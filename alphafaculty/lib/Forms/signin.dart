@@ -51,21 +51,21 @@ class _SigInScreenState extends State<SigInScreen> {
       var res = await response.stream.bytesToString();
       debugPrint(res);
       Map map = jsonDecode(res);
-     String status = map["status"];
+      String status = map["status"];
 
-    String facultyname= map["obj"]["name"];
-    String facultyemail = map["obj"]["email"];
-    String facultypassword = map["obj"]["password"];
+      String facultyname= map["obj"]["name"];
+      String fid = map["obj"]["faculty_id"];
+      String facultypassword = map["obj"]["password"];
 
       debugPrint("status from api:$status");
-    debugPrint(facultyname);
-     debugPrint("Your Status is: $status");
+      debugPrint(facultyname);
+      debugPrint("Your Status is: $status");
       if(status == "success"){
         debugPrint(res);
 
         if(context.mounted){
           // Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(studentID: studentId.text.toString(),),));
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_Screen(facultyname: facultyname,facultypass: facultypassword,)));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_Screen(facultyname: facultyname,facultypass: facultypassword, fa_id: fid, )));
         }
         setState(() {
           userLoader = !userLoader;
@@ -90,15 +90,15 @@ class _SigInScreenState extends State<SigInScreen> {
     }
   }
 
-   void loginStudent()async{
-     SharedPreferences usernamelog = await SharedPreferences.getInstance();
-     //studentLog.setString(username);
-     usernamelog.setString("email", username.text);
-     if(context.mounted){
-       //Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(studentID: studentId.text.toString(),),));
-       Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_Screen(facultyname: username.text, facultypass: password.text)));
-     }
-   }
+  void loginStudent()async{
+    SharedPreferences usernamelog = await SharedPreferences.getInstance();
+    //studentLog.setString(username);
+    usernamelog.setString("email", username.text);
+    if(context.mounted){
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(studentID: studentId.text.toString(),),));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_Screen(facultyname: username.text, facultypass: password.text, fa_id: '',)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
